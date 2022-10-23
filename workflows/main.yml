@@ -1,0 +1,52 @@
+name: test
+
+
+on:
+  push:
+    branches:
+      - master
+
+
+jobs:
+  testing:
+  
+    runs-on: ubuntu-latest
+    steps:
+    
+    - name: user
+      uses: actions/checkout@v1 
+      
+    - name: dir_check  
+      run: ls -la
+        
+    - name: set_compiler
+      run: sudo apt install clang-11 g++ cmake
+      
+    - name: formatter_lib
+      run: | 
+          cd formatter_lib 
+          cmake . -DCMAKE_CXX_COMPILER=clang++
+          cmake --build .
+          cd ..
+          
+    - name: formatter_ex_lib
+      run: | 
+          cd formatter_ex_lib 
+          cmake . -DCMAKE_CXX_COMPILER=clang++
+          cmake --build .
+          cd ..
+    
+    - name: hello_check
+      run: | 
+          cd hello_world_application
+          cmake . -DCMAKE_CXX_COMPILER=clang++
+          cmake --build .
+          cd ..
+      
+    - name: solver_check
+      run: | 
+          cd solver_application
+          cmake . -DCMAKE_CXX_COMPILER=clang++
+          cmake --build .
+          cd ..
+  
